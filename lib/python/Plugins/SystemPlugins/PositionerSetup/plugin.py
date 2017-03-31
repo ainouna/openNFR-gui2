@@ -93,13 +93,14 @@ class PositionerSetup(Screen):
 					service = self.session.pip.pipservice
 					feInfo = service and service.frontendInfo()
 					if feInfo:
-						cur = feInfo.getTransponderData()
+						cur = feInfo.getTransponderData(True)
 					del feInfo
 					del service
-					session.pipshown = False
-					del session.pip
-					if not self.openFrontend():
-						self.frontend = None # in normal case this should not happen
+					from Screens.InfoBar import InfoBar
+					InfoBar.instance and hasattr(InfoBar.instance, "showPiP") and InfoBar.instance.showPiP()
+				if not self.openFrontend():
+					self.frontend = None # in normal case this should not happen
+					if hasattr(self, 'raw_channel'):
 						del self.raw_channel
 
 		self.frontendStatus = { }
@@ -119,7 +120,7 @@ class PositionerSetup(Screen):
 			cur.get("pilot", eDVBFrontendParametersSatellite.Pilot_Unknown),
 			cur.get("is_id", 0),
 			cur.get("pls_mode", eDVBFrontendParametersSatellite.PLS_Root),
-			cur.get("pls_code", 1))
+			cur.get("pls_code", 0))
 
 		self.tuner.tune(tp)
 		self.isMoving = False
@@ -244,7 +245,7 @@ class PositionerSetup(Screen):
 			self.sitelat = 50.767
 			self.latitudeOrientation = 'north'
 			self.tuningstepsize = 0.36
-			self.rotorPositions = 49
+			self.rotorPositions = 99
 			self.turningspeedH = 2.3
 			self.turningspeedV = 1.7
 		self.sitelat = PositionerSetup.orbital2metric(self.sitelat, self.latitudeOrientation)
@@ -255,7 +256,7 @@ class PositionerSetup(Screen):
 		if orb_pos in self.availablesats:
 			lnbnum = int(self.advancedsats[orb_pos].lnb.value)
 			if not lnbnum:
-				for allsats in range(3601, 3604):
+				for allsats in range(3601, 3607):
 					lnbnum = int(self.advancedsats[allsats].lnb.value)
 					if lnbnum:
 						break
@@ -518,15 +519,18 @@ class PositionerSetup(Screen):
 				while True:
 					if not len(self.allocatedIndices):
 						for sat in self.availablesats:
-							self.allocatedIndices.append(int(self.advancedsats[sat].rotorposition.value))
+							current_index = int(self.advancedsats[sat].rotorposition.value)
+							if current_index not in self.allocatedIndices:
+								self.allocatedIndices.append(current_index)
 						if len(self.allocatedIndices) == self.rotorPositions:
 							self.statusMsg(_("No free index available"), timeout = self.STATUS_MSG_TIMEOUT)
 							break
 					index = 1
-					for i in sorted(self.allocatedIndices):
-						if i != index:
-							break
-						index += 1
+					if len(self.allocatedIndices):
+						for i in sorted(self.allocatedIndices):
+							if i != index:
+								break
+							index += 1
 					if index <= self.rotorPositions:
 						self.positioner_storage.value = index
 						self["list"].invalidateCurrent()
@@ -1015,7 +1019,7 @@ class PositionerSetupLog(Screen):
 		self["key_green"] = Button()
 		self["key_yellow"] = Button()
 		self["key_blue"] = Button(_("Save"))
-		self["list"] = ScrollLabel(log.getvalue())
+		self["list"] = ScrollLabel(log.value)
 		self["actions"] = ActionMap(["DirectionActions", "OkCancelActions", "ColorActions"],
 		{
 			"red": self.clear,
@@ -1036,7 +1040,7 @@ class PositionerSetupLog(Screen):
 	def save(self):
 		try:
 			f = open('/tmp/positionersetup.log', 'w')
-			f.write(log.getvalue())
+			f.write(log.value)
 			f.close()
 		except Exception, e:
 			self["list"].setText(_("Failed to write /tmp/positionersetup.log: ") + str(e))
@@ -1102,7 +1106,7 @@ class TunerScreen(ConfigListScreen, Screen):
 			"fec_s2": eDVBFrontendParametersSatellite.FEC_9_10,
 			"modulation": eDVBFrontendParametersSatellite.Modulation_QPSK,
 			"pls_mode": eDVBFrontendParametersSatellite.PLS_Root,
-			"pls_code": 1 }
+			"pls_code": 0 }
 		if frontendData is not None:
 			ttype = frontendData.get("tuner_type", "UNKNOWN")
 			defaultSat["system"] = frontendData.get("system", eDVBFrontendParametersSatellite.System_DVB_S)
@@ -1116,7 +1120,7 @@ class TunerScreen(ConfigListScreen, Screen):
 				defaultSat["pilot"] = frontendData.get("pilot", eDVBFrontendParametersSatellite.Pilot_Unknown)
 				defaultSat["is_id"] = frontendData.get("is_id", 0)
 				defaultSat["pls_mode"] = frontendData.get("pls_mode", eDVBFrontendParametersSatellite.PLS_Root)
-				defaultSat["pls_code"] = frontendData.get("pls_code", 1)				
+				defaultSat["pls_code"] = frontendData.get("pls_code", 0)
 			else:
 				defaultSat["fec"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
 			defaultSat["modulation"] = frontendData.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK)
@@ -1174,7 +1178,7 @@ class TunerScreen(ConfigListScreen, Screen):
 			(eDVBFrontendParametersSatellite.PLS_Root, _("Root")),
 			(eDVBFrontendParametersSatellite.PLS_Gold, _("Gold")),
 			(eDVBFrontendParametersSatellite.PLS_Combo, _("Combo"))])
-		self.scan_sat.pls_code = ConfigInteger(default = defaultSat.get("pls_code",1), limits = (0, 262142))		
+		self.scan_sat.pls_code = ConfigInteger(default = defaultSat.get("pls_code",0), limits = (0, 262142))
 
 	def initialSetup(self):
 		currtp = self.transponderToString([None, self.scan_sat.frequency.value, self.scan_sat.symbolrate.value, self.scan_sat.polarization.value])
@@ -1211,7 +1215,7 @@ class TunerScreen(ConfigListScreen, Screen):
 				if nim.isMultistream():
 					self.list.append(getConfigListEntry(_('Input Stream ID'), self.scan_sat.is_id))
 					self.list.append(getConfigListEntry(_('PLS Mode'), self.scan_sat.pls_mode))
-					self.list.append(getConfigListEntry(_('PLS Code'), self.scan_sat.pls_code))				
+					self.list.append(getConfigListEntry(_('PLS Code'), self.scan_sat.pls_code))
 		else: # "predefined_transponder"
 			self.list.append(getConfigListEntry(_("Transponder"), self.tuning.transponder))
 			currtp = self.transponderToString([None, self.scan_sat.frequency.value, self.scan_sat.symbolrate.value, self.scan_sat.polarization.value])

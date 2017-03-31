@@ -85,7 +85,7 @@ class Satfinder(ScanSetup, ServiceScan):
 		self.session.nav.playService(self.session.postScanService)
 
 	def newConfig(self):
-		self.transponder = None
+#		self.transponder = None
 		cur = self["config"].getCurrent()
 		print"cur ", cur
 
@@ -116,7 +116,7 @@ class Satfinder(ScanSetup, ServiceScan):
 		self["config"].l.setList(tlist)
 
 #manipulate choices, we need only "single_transponder","predefined_transponder"
-		for scan_type in (self.scan_type, self.scan_typecable, self.scan_typeterrestrial):
+		for scan_type in (self.scan_type, self.scan_typecable, self.scan_typeterrestrial, self.scan_typeatsc):
 			slist = scan_type.choices.choices
 			dlist = []
 			for x in slist:
@@ -321,7 +321,7 @@ class Satfinder(ScanSetup, ServiceScan):
 
 	def retuneATSC(self):
 		if self.initcomplete:
-			if self.tuning_type.value == "single_transponder":
+			if self.scan_typeatsc.value == "single_transponder":
 				transponder = (
 					self.scan_ats.frequency.value*1000,
 					self.scan_ats.modulation.value,
@@ -331,8 +331,8 @@ class Satfinder(ScanSetup, ServiceScan):
 				if self.initcomplete:
 					self.tuner.tuneATSC(transponder)
 				self.transponder = transponder
-			elif self.tuning_type.value == "predefined_transponder":
-				tps = nimmanager.getTranspondersATSC(int(self.satfinder_scan_nims.value))
+			elif self.scan_typeatsc.value == "predefined_transponder":
+				tps = nimmanager.getTranspondersATSC(int(self.scan_nims.value))
 				if tps and len(tps) > self.ATSCTransponders.index:
 					tp = tps[self.ATSCTransponders.index]
 					transponder = (tp[1], tp[2], tp[3], tp[4])

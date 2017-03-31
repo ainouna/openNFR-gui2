@@ -11,6 +11,7 @@
 #include <lib/actions/action.h>
 #include <lib/driver/rc.h>
 #include <lib/base/ioprio.h>
+#include <lib/base/e2avahi.h>
 #include <lib/base/ebase.h>
 #include <lib/base/eenv.h>
 #include <lib/base/eerror.h>
@@ -32,6 +33,7 @@
 #include <lib/python/connections.h>
 #include <lib/python/python.h>
 #include <lib/python/pythonconfig.h>
+#include <lib/service/servicepeer.h>
 
 #include "bsod.h"
 #include "version_info.h"
@@ -62,12 +64,34 @@ void keyEvent(const eRCKey &key)
 {
 	static eRCKey last(0, 0, 0);
 	static int num_repeat;
+	static int long_press_emulation_pushed = false;
+	static time_t long_press_emulation_start = 0;
 
 	ePtr<eActionMap> ptr;
 	eActionMap::getInstance(ptr);
 	/*eDebug("key.code : %02x \n", key.code);*/
 
-	if ((key.code == last.code) && (key.producer == last.producer) && key.flags & eRCKey::flagRepeat)
+	int flags = key.flags;
+	int long_press_emulation_key = eConfigManager::getConfigIntValue("config.usage.long_press_emulation_key");
+	if ((long_press_emulation_key > 0) && (key.code == long_press_emulation_key))
+	{
+		long_press_emulation_pushed = true;
+		long_press_emulation_start = time(NULL);
+		last = key;
+		return;
+	}
+
+	if (long_press_emulation_pushed && (time(NULL) - long_press_emulation_start < 10) && (key.producer == last.producer))
+	{
+		// emit make-event first
+		ptr->keyPressed(key.producer->getIdentifier(), key.code, key.flags);
+		// then setup condition for long-event
+		num_repeat = 3;
+		last = key;
+		flags = eRCKey::flagRepeat;
+	}
+
+	if ((key.code == last.code) && (key.producer == last.producer) && flags & eRCKey::flagRepeat)
 		num_repeat++;
 	else
 	{
@@ -87,7 +111,9 @@ void keyEvent(const eRCKey &key)
 		ptr->keyPressed(key.producer->getIdentifier(), 510 /* faked KEY_ASCII */, 0);
 	}
 	else
-		ptr->keyPressed(key.producer->getIdentifier(), key.code, key.flags);
+		ptr->keyPressed(key.producer->getIdentifier(), key.code, flags);
+
+	long_press_emulation_pushed = false;
 }
 
 /************************************************/
@@ -112,6 +138,8 @@ class eMain: public eApplication, public Object
 public:
 	eMain()
 	{
+		e2avahi_init(this);
+		init_servicepeer();
 		init.setRunlevel(eAutoInitNumbers::main);
 		/* TODO: put into init */
 		m_dvbdb = new eDVBDB();
@@ -125,6 +153,8 @@ public:
 	{
 		m_dvbdb->saveServicelist();
 		m_mgr->releaseCachedChannel();
+		done_servicepeer();
+		e2avahi_close();
 	}
 };
 

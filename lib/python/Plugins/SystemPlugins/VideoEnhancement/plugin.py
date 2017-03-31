@@ -24,6 +24,7 @@ class VideoEnhancementSetup(Screen, ConfigListScreen):
 		self["VKeyIcon"] = Boolean(False)
 		self['footnote'] = Label()
 		self["description"] = Label(_(""))
+		self["introduction"] = StaticText()
 
 		self.list = [ ]
 		self.xtdlist = [ ]
@@ -327,12 +328,12 @@ class VideoEnhancementPreview(Screen, ConfigListScreen):
 
 	def createSetup(self):
 		self.list = [ ]
-		if self.maxValue == 256:
+		if self.maxValue == 255:
 			self.configStepsEntry = getConfigListEntry(_("Change step size"), config.pep.configsteps)
 
 		if self.configEntry is not None:
 			self.list = self.configEntry
-		if self.maxValue == 256:
+		if self.maxValue == 255:
 			self.list.append(self.configStepsEntry)
 
 		self["config"].list = self.list
@@ -346,7 +347,7 @@ class VideoEnhancementPreview(Screen, ConfigListScreen):
 		self["introduction"].setText(_("Current value: ") + self.getCurrentValue())
 		try:
 			max_avail=self["config"].getCurrent()[1].max
-			if max_avail == 256:
+			if max_avail == 255:
 				self.isStepSlider = True
 			else:
 				self.isStepSlider = False
@@ -403,9 +404,9 @@ def videoEnhancementSetupMain(session, **kwargs):
 	session.open(VideoEnhancementSetup)
 
 def startSetup(menuid):
-	if menuid != "system":
+	if menuid != "video_menu":
 		return [ ]
-	return [(_("Video Enhancement Settings") , videoEnhancementSetupMain, "videoenhancement_setup", None)]
+	return [(_("Extended settings") , videoEnhancementSetupMain, "videoenhancement_setup", 5)]
 
 def Plugins(**kwargs):
 	list = []
