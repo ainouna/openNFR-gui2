@@ -443,7 +443,7 @@ class NFR4XBootImageChoose(Screen):
             menulist = []
             menulist.append((_('Install from /media/nfr4xboot/NFR4XBootUpload'), 'media'))
             menulist.append((_('Install from Internet (OpenPLi,OpenVix,OpenATV,Egami,OpenNFR,OpenHDF)'), 'internet'))
-            self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_('Choose they way for installation'), list=menulist)
+            self.session.openWithCallback(self.menuCallback, ChoiceBox, title='Choose they way for installation', list=menulist)
 
     def menuCallback(self, choice):
         self.show()
@@ -635,7 +635,7 @@ def checkkernel():
     if not fileExists('/media/usb'):
         os.system('mkdir /media/usb')
     if getBoxType() in ('iqonios300hd', 'starsatlx'): 
-       mycheck = 2
+        mycheck = 2
     else:
         mycheck = 1
     return mycheck
@@ -700,4 +700,4 @@ def menu(menuid, **kwargs):
 from Plugins.Plugin import PluginDescriptor
 
 def Plugins(**kwargs):
-    return [PluginDescriptor(name='NFR4XBoot', description='NFR4X MultiBoot', where=PluginDescriptor.WHERE_MENU, fnc=menu), PluginDescriptor(name='NFR4XBoot', description=_('E2 Light Multiboot'), icon='plugin_icon.png', where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)] 
+    return [PluginDescriptor(name='NFR4XBoot', description='NFR4X MultiBoot', where=PluginDescriptor.WHERE_MENU, fnc=menu), PluginDescriptor(name='NFR4XBoot', description=_('E2 Light Multiboot'), icon='NFR4XBootFHD.png', where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)] 
