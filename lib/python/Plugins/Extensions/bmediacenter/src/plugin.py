@@ -360,7 +360,6 @@ def Plugins(**kwargs):
 		return [
 			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenterFHD.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main)]
     else:
-    if screenwidth and screenwidth == 1920:	
 	if config.plugins.mc_globalsettings.showinmainmenu.value == True and config.plugins.mc_globalsettings.showinextmenu.value == True:
 		return [
 			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenter.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
