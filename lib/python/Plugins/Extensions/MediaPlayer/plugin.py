@@ -3,7 +3,7 @@ from time import strftime
 import random
 from boxbranding import getMachineBrand, getMachineName
 
-from enigma import iPlayableService, eTimer, eServiceCenter, iServiceInformation, ePicLoad
+from enigma import iPlayableService, eTimer, eServiceCenter, iServiceInformation, ePicLoad, getDesktop
 
 from ServiceReference import ServiceReference
 from Screens.Screen import Screen
@@ -1125,8 +1125,17 @@ def filescan(**kwargs):
 
 from Plugins.Plugin import PluginDescriptor
 def Plugins(**kwargs):
-	return [
-		PluginDescriptor(name = _("Media player"), description = _("Play back media files"), where = PluginDescriptor.WHERE_PLUGINMENU, needsRestart = False, fnc = main),
+    screenwidth = getDesktop(0).size().width()
+    if screenwidth and screenwidth == 1920:	
+        return [
+		PluginDescriptor(name = _("Media player"), description = _("Play back media files"), where = PluginDescriptor.WHERE_PLUGINMENU, needsRestart = False, icon='MediaPlayerFHD.png', fnc = main),
 		PluginDescriptor(name = _("Media Player"), where = PluginDescriptor.WHERE_FILESCAN, needsRestart = False, fnc = filescan),
 		PluginDescriptor(name = _("Media Player"), description = _("Play back media files"), where = PluginDescriptor.WHERE_MENU, needsRestart = False, fnc = menu)
-	]
+        ]
+    else:
+        return [
+		PluginDescriptor(name = _("Media player"), description = _("Play back media files"), where = PluginDescriptor.WHERE_PLUGINMENU, needsRestart = False, icon='MediaPlayer.png', fnc = main),
+		PluginDescriptor(name = _("Media Player"), where = PluginDescriptor.WHERE_FILESCAN, needsRestart = False, fnc = filescan),
+		PluginDescriptor(name = _("Media Player"), description = _("Play back media files"), where = PluginDescriptor.WHERE_MENU, needsRestart = False, fnc = menu)
+        ]		
+
