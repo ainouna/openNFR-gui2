@@ -341,26 +341,40 @@ def menu(menuid, **kwargs):
 		return [(_("Media Center"), main, "dmc_mainmenu", 44)]
 	return []
 def Plugins(**kwargs):
+    screenwidth = getDesktop(0).size().width()
+    if screenwidth and screenwidth == 1920:	
 	if config.plugins.mc_globalsettings.showinmainmenu.value == True and config.plugins.mc_globalsettings.showinextmenu.value == True:
 		return [
-			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="plugin.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenterFHD.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
 			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", where = PluginDescriptor.WHERE_MENU, fnc = menu),
-			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="plugin.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]	
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenterFHD.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]	
 	elif config.plugins.mc_globalsettings.showinmainmenu.value == True and config.plugins.mc_globalsettings.showinextmenu.value == False:
 		return [
-			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="plugin.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenterFHD.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
 			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", where = PluginDescriptor.WHERE_MENU, fnc = menu)]
 	elif config.plugins.mc_globalsettings.showinmainmenu.value == False and config.plugins.mc_globalsettings.showinextmenu.value == True:
 		return [
-			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="plugin.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
-			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="plugin.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenterFHD.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenterFHD.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]
 	else:
 		return [
-			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="plugin.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main)]
-
-def Plugins(**kwargs):
-    screenwidth = getDesktop(0).size().width()
-    if screenwidth and screenwidth == 1920:
-        return [PluginDescriptor(name='Media Center', description=_('Media Center Plugin for your OpenNFR-Image'), where=PluginDescriptor.WHERE_PLUGINMENU, icon='MediaCenterFHD.png', fnc=main)]
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenterFHD.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main)]
     else:
-        return [PluginDescriptor(name='Media Center', description=_('Media Center Plugin for your OpenNFR-Image'), where=PluginDescriptor.WHERE_PLUGINMENU, icon='MediaCenter.png', fnc=main)]
+    if screenwidth and screenwidth == 1920:	
+	if config.plugins.mc_globalsettings.showinmainmenu.value == True and config.plugins.mc_globalsettings.showinextmenu.value == True:
+		return [
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenter.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", where = PluginDescriptor.WHERE_MENU, fnc = menu),
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenter.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]	
+	elif config.plugins.mc_globalsettings.showinmainmenu.value == True and config.plugins.mc_globalsettings.showinextmenu.value == False:
+		return [
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenter.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", where = PluginDescriptor.WHERE_MENU, fnc = menu)]
+	elif config.plugins.mc_globalsettings.showinmainmenu.value == False and config.plugins.mc_globalsettings.showinextmenu.value == True:
+		return [
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenter.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenter.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]
+	else:
+		return [
+			PluginDescriptor(name = "Media Center", description = "Media Center Plugin for your OpenNFR-Image", icon="MediaCenter.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main)]
+	
