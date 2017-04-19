@@ -13469,3 +13469,7 @@ msgstr "Der PIN wurde erfolgreich gespeichert"
 
 msgid "Would you save the entered PIN %s persistent?"
 msgstr "Möchten Sie die PIN %s dauerhaft speichern?"
+
+msgid "Execute after current event"
+msgstr "Ausschalten nach aktueller Sendung"
+
