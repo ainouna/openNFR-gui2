@@ -13473,3 +13473,5 @@ msgstr "Möchten Sie die PIN %s dauerhaft speichern?"
 msgid "Execute after current event"
 msgstr "Ausschalten nach aktueller Sendung"
 
+msgid "Execute in "
+msgstr "Ausführen in "
