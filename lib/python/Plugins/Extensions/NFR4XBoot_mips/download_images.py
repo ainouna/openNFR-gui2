@@ -315,7 +315,7 @@ class DownloadOnLineImage(Screen):
             else:   
                 stb = 'no Image for this Box on this Side'
         elif self.distro == 'openeight':
-            if box in ('sf208', 'sf228', 'sf108', 'sf3038', 'sf98'):
+            if box in ('sf208', 'sf228', 'sf108', 'sf3038', 'sf98', 'sf128', 'sf138'):
                if box in ('sf228'):
                		box = 'sf228'
                 	urlbox = getBoxType()               
@@ -348,7 +348,7 @@ class DownloadOnLineImage(Screen):
             else:   
                 stb = 'no Image for this Box on this Side'    
         elif self.distro == 'openpli':
-            if box in ('vusolo2', 'vusolo4k', 'vusolose', 'vuduo2', 'osmini', 'mutant2400', 'quadbox2400', 'formuler4', 'formuler1', 'formuler3'):
+            if box in ('vusolo2', 'vusolo4k', 'vusolose', 'vuduo2', 'osmini', 'spycatmini', 'spycat', 'mutant2400', 'quadbox2400', 'formuler4', 'formuler1', 'formuler3'):
                if box in ('vusolo2'):
                     box = 'vusolo2'
                     urlbox = 'vuplus/vusolo2/' 
