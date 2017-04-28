@@ -44,6 +44,8 @@ SystemInfo["FanPWM"] = SystemInfo["Fan"] and fileCheck("/proc/stb/fp/fan_pwm")
 SystemInfo["StandbyPowerLed"] = fileExists("/proc/stb/power/standbyled")
 SystemInfo["LEDButtons"] = getBoxType() == 'vuultimo'
 SystemInfo["loadcidriver"] = getBoxType() == 'formuler1'
+SystemInfo["loadci3driver"] = getBoxType() == 'formuler3'
+SystemInfo["loadci4driver"] = getBoxType() == 'formuler4'
 SystemInfo["WakeOnLAN"] = fileCheck("/proc/stb/power/wol") or fileCheck("/proc/stb/fp/wol")
 if getBoxType() in ('gbquad', 'gbquadplus','gb800ueplus', 'gb800seplus', 'gbipbox'):
 	SystemInfo["WOL"] = False
@@ -76,6 +78,7 @@ SystemInfo["grautec"] = fileExists("/tmp/usbtft")
 SystemInfo["3DMode"] = fileCheck("/proc/stb/fb/3dmode") or fileCheck("/proc/stb/fb/primary/3d")
 SystemInfo["3DZNorm"] = fileCheck("/proc/stb/fb/znorm") or fileCheck("/proc/stb/fb/primary/zoffset")
 SystemInfo["CanUse3DModeChoices"] = fileExists('/proc/stb/fb/3dmode_choices') and True or False
+SystemInfo["need_dsw"] = getBoxType() not in ('osminiplus')
 SystemInfo["HaveMultiBoot"] = fileCheck("/boot/STARTUP") or fileCheck("/boot/STARTUP_1")
 SystemInfo["HaveCISSL"] = fileCheck("/etc/ssl/certs/customer.pem") and fileCheck("/etc/ssl/certs/device.pem")
 SystemInfo["HaveTouchSensor"] = getBoxType() in ('dm520', 'dm525', 'dm900')
