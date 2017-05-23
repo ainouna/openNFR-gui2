@@ -246,15 +246,6 @@ def InitUsageConfig():
 		("intermediate", _("Intermediate")),
 		("expert", _("Expert")) ])
 
-	config.usage.on_long_powerpress = ConfigSelection(default = "show_menu", choices = [
-		("show_menu", _("Show shutdown menu")),
-		("shutdown", _("Immediate shutdown")),
-		("standby", _("Standby")) ] )
-
-	config.usage.on_short_powerpress = ConfigSelection(default = "standby", choices = [
-		("show_menu", _("Show shutdown menu")),
-		("shutdown", _("Immediate shutdown")),
-		("standby", _("Standby")) ] )
 	choicelist = [("0", _("Do nothing"))]
 	for i in range(900, 7201, 900):
 		m = abs(i / 60)
@@ -265,14 +256,20 @@ def InitUsageConfig():
 	config.usage.inactivity_timer_blocktime_begin = ConfigClock(default = mktime((0, 0, 0, 6, 0, 0, 0, 0, 0)))
 	config.usage.inactivity_timer_blocktime_end = ConfigClock(default = mktime((0, 0, 0, 23, 0, 0, 0, 0, 0)))		
 		
-	choicelist = [("standby", _("Standby")),("deepstandby", _("Deep Standby"))]
-	config.usage.sleep_timer_action = ConfigSelection(default = "deepstandby", choices = choicelist)
-	choicelist = [("0", _("Disabled")),("event_standby", _("Execute after current event"))]
-	for i in range(900, 7201, 900):
+	choicelist = []
+	for i in range(-7200, 7201, 900):
 		m = abs(i / 60)
 		m = ngettext("%d minute", "%d minutes", m) % m
-		choicelist.append((str(i), _("Execute in ") + m))
+		if i < 0:
+			choicelist.append(("%d" % i, _("Shutdown in ") + m))
+		elif i > 0:
+			choicelist.append(("%d" % i, _("Standby in ") + m))
+		else:
+			choicelist.append(("event_shutdown", _("Shutdown after current event")))
+			choicelist.append(("0", "Disabled"))
+			choicelist.append(("event_standby", _("Standby after current event")))
 	config.usage.sleep_timer = ConfigSelection(default = "0", choices = choicelist)
+	
 	choicelist = [("show_menu", _("Show shutdown menu")), ("shutdown", _("Immediate shutdown")), ("standby", _("Standby")), ("sleeptimer", _("SleepTimer"))]	
 
 	config.usage.on_long_powerpress = ConfigSelection(default = "show_menu", choices = choicelist)
