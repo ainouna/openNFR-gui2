@@ -10923,6 +10923,10 @@ msgid "Your receiver will got to stand by due to the sleeptimer."
 msgstr ""
 "Ein Ausschalt-Timer möchte den Receiver in den Standby-Modus versetzen."
 
+msgid "Your receiver will shutdown due to the sleeptimer."
+msgstr ""
+"Ein Ausschalt-Timer möchte den Receiver herunterfahren."
+
 msgid "Your receiver will shutdown due to inactivity."
 msgstr "Der Receiver wird heruntergefahren, aufgrund von Inaktivität."
 
