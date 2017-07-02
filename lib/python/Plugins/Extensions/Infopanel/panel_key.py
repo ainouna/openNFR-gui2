@@ -46,6 +46,33 @@ class OpenNFRBluePanel:
 			(actionmap, context, action) = args
 			actionmap.action(context, action)
 			
+class OpenNFRBluePanelLong:
+	def __init__(self):
+		self["OpenNFRBluePanel"] = ActionMap( [ "InfobarExtensions" ],
+			{
+				"OpenNFRBluePanelLongShow": (self.showOpenNFRBluePanelLong),
+			})
+
+	def showOpenNFRBluePanelLong(self):
+		if config.plugins.infopanel_bluekeylong.list.value == '0':
+			from Plugins.Extensions.Infopanel.Manager import *
+			from Plugins.Extensions.Infopanel.Softcam import *
+			self.session.openWithCallback(self.callEgAction, NFRCamManager)	
+		elif config.plugins.infopanel_bluekeylong.list.value == '1':
+                        from Screens.InfoBar import InfoBarRedButton
+                        InfoBarRedButton.activateRedButton(self)
+		elif config.plugins.infopanel_bluekeylong.list.value == '2':
+                        from Plugins.Extensions.Infopanel.QuickMenu import QuickMenu
+                        self.session.openWithCallback(self.callEgAction, QuickMenu)
+		else:
+                        from Plugins.Extensions.Infopanel.plugin import *
+                        self.session.openWithCallback(self.callEgAction,Infopanel)
+
+	def callEgAction(self, *args):
+		if len(args):
+			(actionmap, context, action) = args
+			actionmap.action(context, action)			
+			
 class OpenNFRREDPanel:
 	def __init__(self):
 		self["OpenNFRRedPanel"] = ActionMap( [ "InfobarExtensions" ],
@@ -99,4 +126,57 @@ class OpenNFRREDPanelLong:
 		if len(args):
 			(actionmap, context, action) = args
 			actionmap.action(context, action)			
-                                                
+                        
+class OpenNFRGreenPanelLong:
+	def __init__(self):
+		self["OpenNFRGreenPanelLong"] = ActionMap( [ "InfobarExtensions" ],
+			{
+				"OpenNFRGreenPanelLongShow": (self.showOpenNFRGreenPanelLong),
+			})
+
+	def showOpenNFRGreenPanelLong(self):
+		if config.plugins.infopanel_greenkeylong.list.value == '0':
+			from Plugins.Extensions.Infopanel.Manager import *
+			from Plugins.Extensions.Infopanel.Softcam import *
+			self.session.openWithCallback(self.callEgAction, NFRCamManager)	
+		elif config.plugins.infopanel_greenkeylong.list.value == '1':
+                        from Screens.InfoBar import InfoBarRedButton
+                        InfoBarRedButton.activateRedButton(self)
+		elif config.plugins.infopanel_greenkeylong.list.value == '2':
+                        from Plugins.Extensions.Infopanel.QuickMenu import QuickMenu
+                        self.session.openWithCallback(self.callEgAction, QuickMenu)
+		else:
+                        from Plugins.Extensions.Infopanel.plugin import *
+                        self.session.openWithCallback(self.callEgAction,Infopanel)
+
+	def callEgAction(self, *args):
+		if len(args):
+			(actionmap, context, action) = args
+			actionmap.action(context, action)	
+			
+class OpenNFRYellowPanelLong:
+	def __init__(self):
+		self["OpenNFRYellowPanelLong"] = ActionMap( [ "InfobarExtensions" ],
+			{
+				"OpenNFRYellowPanelLongShow": (self.showOpenNFRYellowPanelLong),
+			})
+
+	def showOpenNFRYellowPanelLong(self):
+		if config.plugins.infopanel_yellowkeylong.list.value == '0':
+			from Plugins.Extensions.Infopanel.Manager import *
+			from Plugins.Extensions.Infopanel.Softcam import *
+			self.session.openWithCallback(self.callEgAction, NFRCamManager)	
+		elif config.plugins.infopanel_yellowkeylong.list.value == '1':
+                        from Screens.InfoBar import InfoBarRedButton
+                        InfoBarRedButton.activateRedButton(self)
+		elif config.plugins.infopanel_yellowkeylong.list.value == '2':
+                        from Plugins.Extensions.Infopanel.QuickMenu import QuickMenu
+                        self.session.openWithCallback(self.callEgAction, QuickMenu)
+		else:
+                        from Plugins.Extensions.Infopanel.plugin import *
+                        self.session.openWithCallback(self.callEgAction,Infopanel)
+
+	def callEgAction(self, *args):
+		if len(args):
+			(actionmap, context, action) = args
+			actionmap.action(context, action)				
