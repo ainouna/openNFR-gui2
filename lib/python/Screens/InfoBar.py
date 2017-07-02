@@ -41,10 +41,13 @@ from Plugins.Extensions.Infopanel.panel_key import OpenNFRBluePanel
 
 profile("LOAD: OpenNFRRedPanel")
 from Plugins.Extensions.Infopanel.panel_key import OpenNFRREDPanel
+
+profile("LOAD: OpenNFRRedPanelLong")
+from Plugins.Extensions.Infopanel.panel_key import OpenNFRREDPanelLong
 	
 
 class InfoBar(InfoBarBase, InfoBarShowHide,
-	InfoBarNumberZap, InfoBarChannelSelection, InfoBarMenu, InfoBarEPG, InfoBarRdsDecoder, OpenNFRBluePanel, OpenNFRREDPanel, 
+	InfoBarNumberZap, InfoBarChannelSelection, InfoBarMenu, InfoBarEPG, InfoBarRdsDecoder, OpenNFRBluePanel, OpenNFRREDPanel, OpenNFRREDPanelLong, 
 	InfoBarInstantRecord, InfoBarAudioSelection, InfoBarRedButton, InfoBarTimerButton, InfoBarVmodeButton,
 	HelpableScreen, InfoBarAdditionalInfo, InfoBarNotifications, InfoBarDish, InfoBarUnhandledKey,
 	InfoBarSubserviceSelection, InfoBarTimeshift, InfoBarSeek, InfoBarCueSheetSupport, InfoBarLongKeyDetection,
@@ -81,7 +84,7 @@ class InfoBar(InfoBarBase, InfoBarShowHide,
 
 		for x in HelpableScreen, \
 				InfoBarBase, InfoBarShowHide, \
-				InfoBarNumberZap, InfoBarChannelSelection, InfoBarMenu, InfoBarEPG, InfoBarRdsDecoder, OpenNFRBluePanel, OpenNFRREDPanel, \
+				InfoBarNumberZap, InfoBarChannelSelection, InfoBarMenu, InfoBarEPG, InfoBarRdsDecoder, OpenNFRBluePanel, OpenNFRREDPanel, OpenNFRREDPanelLong, \
 				InfoBarInstantRecord, InfoBarAudioSelection, InfoBarRedButton, InfoBarTimerButton, InfoBarUnhandledKey, InfoBarVmodeButton,\
 				InfoBarAdditionalInfo, InfoBarNotifications, InfoBarDish, InfoBarSubserviceSelection, InfoBarLongKeyDetection, \
 				InfoBarTimeshift, InfoBarSeek, InfoBarCueSheetSupport, InfoBarSummarySupport, InfoBarTimeshiftState, \
@@ -601,4 +604,4 @@ class MoviePlayer(InfoBarBase, InfoBarShowHide,
 		Notifications.AddPopup(text = _("%s/%s: %s") % (index, n, self.ref2HumanName(ref)), type = MessageBox.TYPE_INFO, timeout = 5)
 
 	def ref2HumanName(self, ref):
-		return enigma.eServiceCenter.getInstance().info(ref).getName(ref) 
+		return enigma.eServiceCenter.getInstance().info(ref).getName(ref)  
