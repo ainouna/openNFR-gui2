@@ -40,7 +40,7 @@ profile("LOAD: OpenNFRBluePanel")
 from Plugins.Extensions.Infopanel.panel_key import OpenNFRBluePanel
 
 profile("LOAD: OpenNFRBluePanelLong")
-+from Plugins.Extensions.Infopanel.panel_key import OpenNFRBluePanelLong
+from Plugins.Extensions.Infopanel.panel_key import OpenNFRBluePanelLong
 
 profile("LOAD: OpenNFRRedPanel")
 from Plugins.Extensions.Infopanel.panel_key import OpenNFRREDPanel
