@@ -32,7 +32,7 @@ class OpenNFRBluePanel:
 	def showOpenNFRBluePanel(self):
 		if config.plugins.infopanel_bluekey.list.value == '0':
 			from Plugins.Extensions.Infopanel.QuickMenu import QuickMenu
-            self.session.openWithCallback(self.callEgAction, QuickMenu)
+			self.session.openWithCallback(self.callEgAction, QuickMenu)
 		elif config.plugins.infopanel_bluekey.list.value == '1':
                         from Screens.InfoBar import InfoBarRedButton
                         InfoBarRedButton.activateRedButton(self)			
@@ -60,7 +60,7 @@ class OpenNFRBluePanelLong:
 	def showOpenNFRBluePanelLong(self):
 		if config.plugins.infopanel_bluekeylong.list.value == '0':
 			from Plugins.Extensions.Infopanel.plugin import *
-            self.session.openWithCallback(self.callEgAction,Infopanel)
+			self.session.openWithCallback(self.callEgAction,Infopanel)
 		elif config.plugins.infopanel_bluekeylong.list.value == '1':
                         from Screens.InfoBar import InfoBarRedButton
                         InfoBarRedButton.activateRedButton(self)
@@ -69,8 +69,8 @@ class OpenNFRBluePanelLong:
                         self.session.openWithCallback(self.callEgAction, QuickMenu)
 		else:
                         from Plugins.Extensions.Infopanel.Manager import *
-						from Plugins.Extensions.Infopanel.Softcam import *
-						self.session.openWithCallback(self.callEgAction, NFRCamManager)	
+			from Plugins.Extensions.Infopanel.Softcam import *
+			self.session.openWithCallback(self.callEgAction, NFRCamManager)	
 
 	def callEgAction(self, *args):
 		if len(args):
@@ -113,8 +113,8 @@ class OpenNFRREDPanelLong:
 
 	def showOpenNFRRedPanelLong(self):
 		if config.plugins.infopanel_redkeylong.list.value == '0':
-            from Screens.InfoBar import InfoBarRedButton
-            InfoBarRedButton.activateRedButton(self)	
+			from Screens.InfoBar import InfoBarRedButton
+			InfoBarRedButton.activateRedButton(self)	
 		elif config.plugins.infopanel_redkeylong.list.value == '1':
 			            from Plugins.Extensions.Infopanel.Manager import *
 			            from Plugins.Extensions.Infopanel.Softcam import *
@@ -183,4 +183,4 @@ class OpenNFRYellowPanelLong:
 	def callEgAction(self, *args):
 		if len(args):
 			(actionmap, context, action) = args
-			actionmap.action(context, action)				
+			actionmap.action(context, action)						
